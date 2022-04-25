@@ -5,6 +5,7 @@ import {
   getBooks,
   addNewBook
 } from '../api/books';
+import {API_ENDPOINT} from "./api/index.js";
 
 // Material UI
 import List from '@mui/material/List';
@@ -38,6 +39,23 @@ const BookSchedule = () => {
   }, []);
       
   // Add a new book to the list
+  const addNewBook = async (newTitle, newStart, newEnd) => {
+    const response = await fetch(`${API_ENDPOINT}/books`, {
+      method: 'POST', 
+      body: JSON.stringify({
+        title: newTitle,
+        start: newStart,
+        end: newEnd
+      }),
+      headers: {
+        'content-type': 'application/json',
+      }
+    });
+
+    const newBook = await response.json();
+    return newBook;
+  }
+  
   const onAddNewBook = async () => {
     const newBook = await addNewBook(newBookTitle, newBookStart, newBookEnd);
 
